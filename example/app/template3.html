@@ -1,0 +1,100 @@
+﻿<div class="row mb-3">
+    <div class="col">
+        <h1>Cars application</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="search">Find your car</label>
+            <input type="text"
+                   class="form-control"
+                   placeholder="name, model"
+                   #search
+                   (keyup)="SearchModel(search.value)" />
+        </div>
+        <hr />
+        <div class="pt-2">
+            <ul class="list-group" id="ul1">
+                <li *ngFor="let item of list; let i = index "
+                    class='list-group-item list-group-item-action r1'
+                    [ngClass]="{'active': CheckIfThisCurrentCar(item.carid)}"
+                    (click)="chooseCar(item.carid)">
+                    {{i+1}} - {{item.name}} - {{item.model}}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8 pt-3">
+        <div class="row">
+            <div class="col-md-5">
+                <h2 class="text-center">{{car.name}}</h2>
+                <img id="img1" src="{{car.images}}" alt="" class="rounded img-fluid" />
+            </div>
+            <div class="col-md-7 pt-2">
+                <h5>Car details</h5>
+                <div>
+                    <ul>
+                        <li>Model - <strong>{{car.model }}</strong> </li>
+                        <li>Year - <strong>{{car.year }}</strong> </li>
+                        <li>Owner - <strong>{{car.owner }}</strong> </li>
+                    </ul>
+                    <div class="r2">
+                        <p [ngClass]="{'visible': showOrHidePhone}">
+                            {{car.phone}}
+                        </p>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-success mr-3"
+                                (click)="clickByPhoneBtn()">
+                            {{textForButtonPhone}}
+                        </button>
+                        <button class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#window2">
+                            Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <ul class="list-group">
+            <li *ngFor="let item of listOfLog"
+                class='list-group-item list-group-item-action'
+                [ngClass]="{'list-group-item-success': checkLogType(item.type),
+              'list-group-item-warning': !checkLogType(item.type)
+          }">
+                {{item.text + " - " + item.type + " - " + item.date.toLocaleString()}}
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="modal fade" id="window2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Do you want to buy this car?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelModalWindow()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Carent car - <strong>{{car.model}}</strong></p>
+                <ul>
+                    <li>Model - <strong>{{car.model }}</strong> </li>
+                    <li>Year - <strong>{{car.year }}</strong> </li>
+                    <li>Owner - <strong>{{car.owner }}</strong> </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="clickByBuyBtnInModalWindow()">Buy</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelModalWindow()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
